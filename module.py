@@ -12,4 +12,5 @@ Description:            -> Reads a specified file and returns
 def readFile(filename):
     file = open(filename, 'r')
     lines = file.readlines()
+    file.close()
     return lines
