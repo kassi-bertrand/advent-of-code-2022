@@ -18,9 +18,9 @@ def intersect(strList):
         print("List size should be 3")
         return
 
-    setA = set(strList[0])
-    setB = set(strList[1])
-    setC = set(strList[2])
+    setA = set(strList[0].strip()) #remove '\n' so they don't get match
+    setB = set(strList[1].strip())
+    setC = set(strList[2].strip())
     
     intersection = setA & setB & setC # '&' means intersection
     if len(intersection) == 0:
@@ -38,7 +38,6 @@ def sumOfPriorities(rucksacks):
             list.append(rucksacks[i]) #add every 3rd element
             #Determine common item (i.e. badge) in the 3-item list
             badge = intersect(list)
-            print(badge)
             sumOfPriorities += priority(badge)
             #Clear the list to get ready for the next group
             list.clear()
@@ -48,5 +47,5 @@ def sumOfPriorities(rucksacks):
     return sumOfPriorities
 
 if __name__ == "__main__":
-    rucksacks = readFile('input-test.txt')
+    rucksacks = readFile('input.txt')
     print(sumOfPriorities(rucksacks)) #Expected result: 70
