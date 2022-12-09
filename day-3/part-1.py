@@ -1,11 +1,6 @@
 from collections import Counter
 
-"""
-param:      filename    -> The path to the file
-return:     lines       -> The lines in the file
-Description:            -> Reads a specified file and returns
-                        the lines in the file
-"""
+#read file and return the lines in it
 def readFile(filename):
     file = open(filename, 'r')
     lines = file.readlines()
