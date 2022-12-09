@@ -48,4 +48,4 @@ def sumOfPriorities(rucksacks):
 
 if __name__ == "__main__":
     rucksacks = readFile('input.txt')
-    print(sumOfPriorities(rucksacks)) #Expected result: 70
+    print(sumOfPriorities(rucksacks)) #Expected result: 2444
