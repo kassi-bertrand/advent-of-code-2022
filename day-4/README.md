@@ -41,6 +41,8 @@ This example list uses single-digit section IDs to make it easier to draw; your 
 
 .23456...  2-6
 ```
-Some of the pairs have noticed that one of their assignments **fully contains** the other. For example, 2-8 fully contains 3-7, and 6-6 is fully contained by 4-6. In pairs where one assignment fully contains the other, one Elf in the pair would be exclusively cleaning sections their partner will already be cleaning, so these seem like the most in need of reconsideration. In this example, there are 2 such pairs.
+Some of the pairs have noticed that one of their assignments **fully contains** the other. For example, `2-8` fully contains `3-7`, and `6-6` is fully contained by `4-6`. In pairs where one assignment fully contains the other, one Elf in the pair would be exclusively cleaning sections their partner will already be cleaning, so these seem like the most in need of reconsideration. In this example, there are **2** such pairs.
 
 **In how many assignment pairs does one range fully contain the other?**
+
+`Note:` The `input.txt` file is used for the two parts, and was generated. So, if you try the same AoC challenge your input file will be different.
