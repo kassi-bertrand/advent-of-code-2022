@@ -159,14 +159,22 @@ if __name__ == "__main__":
     print(root.height()) #Expected 3
 
     #SOLUTION
-    lines = readFile('input-test.txt')
+    #1- Read the input line
+    lines = readFile('input.txt')
+
+    #2- Create and populate the filesystem as 
+    # I parse the input
     fileSystem = FileSystem()
     for line in lines:
         parseLine(line, fileSystem)
 
+    #3- Determine the number of directories with 
+    # size 100,000 or less
     dirs = fileSystem.findDirs(fileSystem.root)
+    
+    #4- Compute the total size
+    totalSize = 0
     for dir in dirs:
-        print(dir.name)
-    #Determine the number of directories with size 100,000 or less
-    #Traverse the tree level by level
-    #Their total size
+        totalSize += dir.nodeSize()
+
+    print(f'The total size: {totalSize}')
