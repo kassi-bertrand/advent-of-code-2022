@@ -42,7 +42,18 @@ class Folder(Node):
         for child in self.children:
             temp.append(child.height())
         
+        #The folder is empty
+        if len(temp) == 0:
+            return 0 + 1
+
         return max(temp) + 1
+    
+    def folderExists(self, folderName: str):
+        for child in self.children:
+            if child.name == folderName:
+                return child
+        
+        return None
 
 class File(Node):
     def __init__(self, name, parent, size=0):
@@ -59,7 +70,7 @@ class File(Node):
         return 0 + 1
 
 class FileSystem:
-    def __init__(self) -> None:
+    def __init__(self):
         self.pwd = None
         self.root = None
     
@@ -88,39 +99,45 @@ class FileSystem:
             for child in root.children:
                 self._currentLevel(child, level - 1, dirs)
 
+def parseLine(line: str, fileSystem: FileSystem):
+    #Line is a command (cd or ls)
+    if line.startswith("$"):
+        tokens = line.strip().split(" ")
+        match tokens[1]:
+            case "cd":
+                if tokens[2] == "..":
+                    fileSystem.pwd = fileSystem.pwd.parent
+                else:
+                    if fileSystem.root is None:
+                        #set the root and the pwd to '/'
+                        folder = Folder('/', None)
+                        fileSystem.root = folder
+                        fileSystem.pwd = folder
+                    
+                    elif fileSystem.pwd.folderExists(tokens[2]) is not None:
+                        fileSystem.pwd = fileSystem.pwd.folderExists(tokens[2]) #FIXME, Pass folder object, not string
+                    
+                    else:
+                        #Create folder, Add it filesystem, and Update pwd
+                        folder = Folder(tokens[2], fileSystem.pwd)
+                        fileSystem.pwd.addNode(folder)
+                        fileSystem.pwd = folder
+                return 
 
-class Interpreter:
-    def __init__(self) -> None:
-        self.fileSytem = FileSystem()
+            case "ls":
+                return
     
-    def parseLine(self, line: str):
-        #Line is a command (cd or ls)
-        if line.startswith("$"):
-            tokens = line.split(" ")
-            match tokens[1]:
-                case "cd":
-                    #Create folder
-                    #Add it filesystem
-                    #Update pwd to newly created folder
-                    return 
-
-                case "ls":
-                    return
-
-                case _:
-                    print("Unrecognized command")
-        
-        #Line is output of "ls" command
+    #Line is output of "ls" command
+    else:
+        tokens = line.strip().split(" ")
+        if tokens[0] == "dir":
+            #Create folder and add it as child of pwd
+            folder = Folder(tokens[1], fileSystem.pwd)
+            fileSystem.pwd.addNode(folder)
         else:
-            tokens = line.split(" ")
-            if tokens[0] == "dir":
-                #Create folder named tokens[1]
-                #add it as child of pwd
-                pass
-            else:
-                #Create a file named tokens[1] and size tokens[0]
-                #add it as child of pwd
-                pass
+            #Create a file named tokens[1] and size tokens[0], as child of pwd
+            file = File(tokens[1], fileSystem.pwd, int(tokens[0]))
+            fileSystem.pwd.addNode(file)
 
 if __name__ == "__main__":
     
@@ -139,13 +156,17 @@ if __name__ == "__main__":
     root.addNode(folder_1)
     #-----
     print(root.nodeSize()) #Expected 36
-    print(root.height()) #Expected 2
+    print(root.height()) #Expected 3
 
     #SOLUTION
     lines = readFile('input-test.txt')
+    fileSystem = FileSystem()
     for line in lines:
-        pass
+        parseLine(line, fileSystem)
 
+    dirs = fileSystem.findDirs(fileSystem.root)
+    for dir in dirs:
+        print(dir.name)
     #Determine the number of directories with size 100,000 or less
     #Traverse the tree level by level
     #Their total size
