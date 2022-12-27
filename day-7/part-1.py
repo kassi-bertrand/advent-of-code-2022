@@ -115,7 +115,7 @@ def parseLine(line: str, fileSystem: FileSystem):
                         fileSystem.pwd = folder
                     
                     elif fileSystem.pwd.folderExists(tokens[2]) is not None:
-                        fileSystem.pwd = fileSystem.pwd.folderExists(tokens[2]) #FIXME, Pass folder object, not string
+                        fileSystem.pwd = fileSystem.pwd.folderExists(tokens[2])
                     
                     else:
                         #Create folder, Add it filesystem, and Update pwd
