@@ -6,31 +6,70 @@ def readFile(filename):
     return lines
 
 
-def isVisbile_Left(x, y):
+def isVisibile_Left(grid, row, column):
     """Is tree visible from left side?"""
-    pass
+    treeHeight = grid[row][column]
 
-def isVisible_Right(x, y):
+    for i in range(column - 1, -1, -1):
+        if grid[row][i] >= treeHeight:
+            return False
+
+    return True
+
+def isVisible_Right(grid, row, column):
     """Is tree visible from right side?"""
-    pass
+    treeHeight = grid[row][column]
 
-def isVisible_Top(x, y):
+    for i in range(column + 1, len(grid[0])):
+        if grid[row][i] >= treeHeight:
+            return False
+
+    return True
+
+def isVisible_Top(grid, row, column):
     """Is tree visible from top side?"""
-    pass
+    treeHeight = grid[row][column]
 
-def isVisible_Bottom(x, y):
+    for i in range(row - 1, -1, -1):
+        if grid[i][column] >= treeHeight:
+            return False
+
+    return True
+
+def isVisible_Bottom(grid, row, column):
     """Is tree visible from bottom side?"""
-    pass
+    treeHeight = grid[row][column]
 
-def isVisible(x, y):
+    for i in range(row + 1, len(grid)):
+        if grid[i][column] >= treeHeight:
+            return False
+
+    return True
+
+def isVisible(grid, row, column):
     """Is tree is visible from any side in the grid?"""
-    if isVisbile_Left(x,y) or isVisible_Right(x,y) or isVisible_Bottom(x,y) or isVisible_Top(x,y):
+    if isVisibile_Left(grid, row, column) or isVisible_Right(grid, row, column) or isVisible_Bottom(grid, row, column) or isVisible_Top(grid, row, column):
         return True
     else:
         return False
 
 if __name__ == "__main__":
-    lines = readFile('input-test.txt')
+    lines = readFile('input.txt')
+    
+    #1- Form the grid
+    grid = []
+    for line in lines:
+        arr = list(line.strip())
+        arr = [int(i) for i in arr] #Turn "chars" in "int"
+        grid.append(arr)
 
-    grid = None
+    #2- Count the number of trees visibles from any side
     visibleTrees = 0
+
+    for row in range(len(grid)):
+        for column in range(len(grid[0])):
+            if isVisible(grid, row, column):
+                visibleTrees += 1
+    
+    #3- Print result
+    print(f'Trees visibles from outside grid: {visibleTrees}')
